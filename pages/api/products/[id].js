@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 import NextCors from 'nextjs-cors'
 
 const mongoose = require('mongoose')
@@ -32,6 +31,14 @@ export default async function handler(req, res) {
       )
 
       res.send(result)
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+  } else if (req.method === 'GET') {
+    try {
+      const { id } = req.query
+      const data = await Model.findOne({ _id: id})
+      res.json(data)
     } catch (error) {
       res.status(500).json({ message: error.message })
     }
