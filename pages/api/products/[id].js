@@ -37,8 +37,16 @@ export default async function handler(req, res) {
   } else if (req.method === 'GET') {
     try {
       const { id } = req.query
-      const data = await Model.findOne({ _id: id})
+      const data = await Model.findOne({ _id: id })
       res.json(data)
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+  } else if (req.method === 'DELETE') {
+    try {
+      const { id } = req.query
+      const data = await Model.deleteOne({ _id: id })
+      res.send({ message: 'Eliminado correctamente', data })
     } catch (error) {
       res.status(500).json({ message: error.message })
     }
